@@ -1,6 +1,7 @@
 import numpy as np
 from PyQt5.QtCore import Qt, QThread, QTimer
 from PyQt5.QtWidgets import QMainWindow, QWidget, QPushButton, QVBoxLayout, QApplication, QSlider, QLabel, QLineEdit
+from PyQt5.QtGui import QIntValidator
 from pyqtgraph import ImageView
 
 class StartWindow(QMainWindow):
@@ -20,7 +21,12 @@ class StartWindow(QMainWindow):
         self.slider.setRange(0, 10)
         # Adding a QLineEdit widget in order to let the user define the number
         self.line = QLineEdit()
-        self.label =QLabel('Set Aquiring Frames Number')
+        # Adding validator, set the insert range from 0 to 9999
+        self.Intvalidator = QIntValidator()
+        self.Intvalidator.setRange(0,9999)
+        self.line.setValidator(self.Intvalidator)
+        # Adding label for QLineEdit()
+        self.label = QLabel('Set Aquiring Frames Number')
         
         self.layout = QVBoxLayout(self.central_widget)
         self.layout.addWidget(self.button_frame)
