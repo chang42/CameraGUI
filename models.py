@@ -14,10 +14,13 @@ class Camera:
         ret, self.last_frame = self.cap.read()
         return self.last_frame
 
-    def acquire_movie(self, num_frames):
+    def acquire_movie(self, num_frames=0):
         movie = []
-        for i in range(num_frames):
+        while num_frames == 0:
             movie.append(self.get_frame())
+        else:
+            for i in range(num_frames):
+                movie.append(self.get_frame())
         return movie
 
     def set_brightness(self, value):

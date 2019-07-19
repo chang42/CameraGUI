@@ -11,6 +11,7 @@ class StartWindow(QMainWindow):
         self.central_widget = QWidget()
         self.button_frame = QPushButton('Acquire Frame', self.central_widget)
         self.button_movie = QPushButton('Start Movie', self.central_widget)
+        self.button_stop_movie = QPushButton('Stop Movie', self.central_widget)
         self.image_view = ImageView()
         self.slider = QSlider(Qt.Horizontal)
         self.slider.setRange(0, 10)
@@ -18,12 +19,14 @@ class StartWindow(QMainWindow):
         self.layout = QVBoxLayout(self.central_widget)
         self.layout.addWidget(self.button_frame)
         self.layout.addWidget(self.button_movie)
+        self.layout.addWidget(self.button_stop_movie)
         self.layout.addWidget(self.image_view)
         self.layout.addWidget(self.slider)
         self.setCentralWidget(self.central_widget)
 
         self.button_frame.clicked.connect(self.update_image)
         self.button_movie.clicked.connect(self.start_movie)
+        self.button_stop_movie.clicked.connect(self.stop_acquire)
         self.slider.valueChanged.connect(self.update_brightness)
 
         self.update_timer = QTimer()
@@ -42,8 +45,17 @@ class StartWindow(QMainWindow):
 
     def start_movie(self):
         self.movie_thread = MovieThread(self.camera)
+        # acquire the movie
         self.movie_thread.start()
+        # show the movie
         self.update_timer.start(30)
+
+    def stop_acquire(self):
+        self.movie_thread = MovieThread(self.camera)
+        # stop acquire the movie
+        self.movie_thread.exit()
+        # stop show the movie
+        self.update_timer.stop()
 
 class MovieThread(QThread):
     def __init__(self, camera):
@@ -51,7 +63,7 @@ class MovieThread(QThread):
         self.camera = camera
 
     def run(self):
-        self.camera.acquire_movie(200)
+        self.camera.acquire_movie(0)
 
 if __name__ == '__main__':
     app = QApplication([])
