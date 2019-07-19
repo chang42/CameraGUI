@@ -16,6 +16,7 @@ class Camera:
 
     def acquire_movie(self, num_frames=0):
         movie = []
+        # Make continuous acquiring movie possible, it will run forever if you set the number of frames to 0, or None
         while num_frames == 0:
             movie.append(self.get_frame())
         else:
