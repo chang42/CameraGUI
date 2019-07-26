@@ -10,27 +10,27 @@ class Camera:
     def initialize(self):
         self.cap = cv2.VideoCapture(self.cam_num)        
 
-    def get_frame(self):
+    def getFrame(self):
         ret, self.last_frame = self.cap.read()
         return self.last_frame
 
-    def acquire_movie(self, num_frames=0):
+    def acquireMovie(self, num_frames=0):
         movie = []
         # Make continuous acquiring movie possible, it will run forever if you set the number of frames to 0, or None
         while num_frames == 0:
-            movie.append(self.get_frame())
+            movie.append(self.getFrame())
         else:
             for i in range(num_frames):
-                movie.append(self.get_frame())
+                movie.append(self.getFrame())
         return movie
 
-    def set_brightness(self, value):
+    def setBrightness(self, value):
         self.cap.set(cv2.CAP_PROP_BRIGHTNESS, value)
 
-    def get_brightness(self):
+    def getBrightness(self):
         return self.cap.get(cv2.CAP_PROP_BRIGHTNESS)
 
-    def close_camera(self):
+    def closeCamera(self):
         self.cap.release()
 
     def __str__(self):
@@ -40,10 +40,10 @@ if __name__ == '__main__':
     cam = Camera(0)
     cam.initialize()
     print(cam)
-    frame = cam.get_frame()
+    frame = cam.getFrame()
     print(frame)
-    cam.set_brightness(1)
-    print(cam.get_brightness())
-    cam.set_brightness(0.5)
-    print(cam.get_brightness())
-    cam.close_camera()
+    cam.setBrightness(1)
+    print(cam.getBrightness())
+    cam.setBrightness(0.5)
+    print(cam.getBrightness())
+    cam.closeCamera()

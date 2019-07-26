@@ -38,41 +38,41 @@ class StartWindow(QMainWindow):
         self.layout.addWidget(self.slider)
         self.setCentralWidget(self.central_widget)
 
-        self.button_frame.clicked.connect(self.update_image)
-        self.button_movie.clicked.connect(self.start_movie)
-        self.button_stop_movie.clicked.connect(self.stop_acquire)
-        self.slider.valueChanged.connect(self.update_brightness)
-        self.line.editingFinished.connect(self.set_acquire_num)
+        self.button_frame.clicked.connect(self.updateImage)
+        self.button_movie.clicked.connect(self.startMovie)
+        self.button_stop_movie.clicked.connect(self.stopAcquire)
+        self.slider.valueChanged.connect(self.updateBrightness)
+        self.line.editingFinished.connect(self.setAcquireNum)
 
         self.update_timer = QTimer()
-        self.update_timer.timeout.connect(self.update_movie)
+        self.update_timer.timeout.connect(self.updateMovie)
 
-    def update_image(self):
-        frame = self.camera.get_frame()
+    def updateImage(self):
+        frame = self.camera.getFrame()
         self.image_view.setImage(frame.T)
 
-    def update_movie(self):
+    def updateMovie(self):
         self.image_view.setImage(self.camera.last_frame.T)
 
-    def update_brightness(self, value):
+    def updateBrightness(self, value):
         value /= 10
-        self.camera.set_brightness(value)
+        self.camera.setBrightness(value)
 
-    def start_movie(self):
+    def startMovie(self):
         self.movie_thread = MovieThread(self.camera)
         # acquire the movie
         self.movie_thread.start()
         # show the movie
         self.update_timer.start(30)
 
-    def stop_acquire(self):
+    def stopAcquire(self):
         self.movie_thread = MovieThread(self.camera)
         # stop acquire the movie
         self.movie_thread.exit()
         # stop show the movie
         self.update_timer.stop()
 
-    def set_acquire_num(self):
+    def setAcquireNum(self):
         self.movie_thread = MovieThread(self.camera)
         self.movie_thread.num_frames = int(self.line.text())
         self.movie_thread.start()
@@ -85,7 +85,7 @@ class MovieThread(QThread):
         self.num_frames = 0
 
     def run(self):
-        self.camera.acquire_movie(self.num_frames)
+        self.camera.acquireMovie(self.num_frames)
 
 if __name__ == '__main__':
     app = QApplication([])
