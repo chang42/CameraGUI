@@ -41,9 +41,11 @@ if __name__ == '__main__':
     cam.initialize()
     print(cam)
     frame = cam.getFrame()
-    print(frame)
+    print(frame.shape)
+    '''
     cam.setBrightness(1)
     print(cam.getBrightness())
     cam.setBrightness(0.5)
     print(cam.getBrightness())
+    '''
     cam.closeCamera()
