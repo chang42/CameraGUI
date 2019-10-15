@@ -1,2 +1,2 @@
 to be added:  
-* camera image temp in the memory.  
+* dealing with camera image temp in the memory.  

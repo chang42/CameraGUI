@@ -2,5 +2,10 @@
 ## Python
 #############
 __pycache__/
-*.py[co]
-*.py~
+*.py[cod]
+*$py.class
+
+#############
+## VS Code
+#############
+.vscode/
